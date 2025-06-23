@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "Installiere ssh"
 sudo apt-get install openssh-server -y
 sudo systemctl enable ssh

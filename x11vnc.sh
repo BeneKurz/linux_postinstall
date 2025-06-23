@@ -1,3 +1,5 @@
+#!/bin/bash
+echo "installiere x11vnc ..."
 sudo apt-get -y remove vino
 sudo apt-get -y install x11vnc
 sudo mkdir /etc/x11vnc
