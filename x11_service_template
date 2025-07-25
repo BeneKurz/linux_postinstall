@@ -1,10 +1,16 @@
 [Unit]
-Description=Start x11vnc at startup.
-After=multi-user.target
+Description=Start x11vnc for bene
+After=graphical.target
+Requires=graphical.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/x11vnc -auth guess -forever -noxdamage -repeat -rfbauth /etc/x11vnc/vncpwd -rfbport 5900 -shared
+User=bene
+ExecStart=/usr/bin/x11vnc -display :0 \
+  -auth /run/user/1001/xauth_Akhjvo \
+  -rfbauth /etc/x11vnc/passwd \
+  -forever -shared
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
