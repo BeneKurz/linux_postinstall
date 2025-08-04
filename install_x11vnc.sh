@@ -8,7 +8,7 @@ sudo ufw allow 5900
 
 sudo x11vnc --storepasswd /etc/x11vnc/vncpwd
 
-sudo mv x11_service_template  /lib/systemd/system/x11vnc.service
+sudo mv x11_service_template  /etc/systemd/system/x11vnc.service
 
 sudo systemctl daemon-reload
 
