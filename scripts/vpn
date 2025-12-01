@@ -1,0 +1,66 @@
+#!/bin/bash
+PID_FILE_HUSUM="/tmp/ovpn_husum.pid"
+cd /etc/openvpn/client
+TARGET=$1
+MODE=$2
+
+function usage
+{
+	echo "vpn [husum|del] [start|stop]"
+}
+
+husum()
+{
+	if [[ $MODE == "start" ]]
+	then
+		echo "connect ..."
+		cd /etc/openvpn/client
+		sudo openvpn --config fw_ipn_local_OVPN_Server.ovpn --auth-user-pass auth.txt --writepid $PID_FILE_HUSUM &
+	fi
+	if [[ $MODE == "stop" ]]
+	then
+		if [[ -f $PID_FILE_HUSUM ]]
+		then
+			PID=$( < $PID_FILE_HUSUM )
+			sudo kill -9 $PID
+			sudo /bin/rm -f $PID_FILE_HUSUM
+			echo "PID $PID killed ..."
+		else
+			echo "Not running"
+		fi
+	fi
+}
+
+delmenhorst()
+{
+	if [[ $MODE == "start" ]]
+	then
+		echo "connect ..."
+		sudo ipsec up asegovpn 
+	fi
+	if [[ $MODE == "stop" ]]
+	then
+		sudo ipsec down asegovpn 
+	fi
+}
+
+if [[ "" == "$TARGET"  || "" == "$MODE" ]]
+then
+	usage
+	ps -ef  | grep openvpn | grep -v grep | grep $PID_FILE_HUSUM
+	sudo ipsec status
+	exit 0
+fi
+if [[ "husum" == "$TARGET"  || "del" == "$TARGET" ]]
+then
+	if [[ "husum" == "$TARGET" ]]
+	then
+		husum $MODE
+	fi
+	if [[  "del" == "$TARGET" ]]
+	then
+		delmenhorst $MODE
+	fi
+else
+	usage
+fi
