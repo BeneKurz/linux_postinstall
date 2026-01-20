@@ -4,6 +4,12 @@ keepassxc
 obsidian
 ipsec
 chromium
+winboat
+vivaldi
+telegram
+code
+sshd
+rustdesk
 ~
 ~
 ~
